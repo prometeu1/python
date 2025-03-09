@@ -1,17 +1,36 @@
 import time
 import os
 import json
-import random 
-from colorama import init, Fore, Back, Style  
+import random
+from colorama import init, Fore
 
 
 init(autoreset=True)
 
 
-easy_words = ["chat", "chien", "maison", "arbre", "soleil", "fleur", "table", "chaise", "livre", "école"]
-medium_words = ["ordinateur", "bouteille", "téléphone", "fenêtre", "montagne", "vélo", "cahier", "stylo", "lampe", "horloge"]
-hard_words = ["bibliothèque", "réfrigérateur", "ascenseur", "architecture", "philosophie", "magnétisme", "encyclopédie", "géographie", "théâtre", "restaurant"]
-hardcore_words = ["anticonstitutionnellement", "incompréhensibilité", "électroencéphalogramme", "otorhinolaryngologiste", "hexakosioihexekontahexaphobie", "dysprosium", "parallélépipède", "hippopotomonstrosesquippedaliophobie", "sphygmomanomètre", "xylophoniste"]
+easy_groups = [
+    ["chat", "chien", "maison", "arbre", "soleil", "fleur", "table", "chaise", "livre", "école"],
+    ["pomme", "banane", "orange", "fraise", "citron", "kiwi", "ananas", "raisin", "melon", "cerise"],
+    ["voiture", "vélo", "train", "avion", "bateau", "bus", "moto", "camion", "tramway", "scooter"]
+]
+
+medium_groups = [
+    ["ordinateur", "bouteille", "téléphone", "fenêtre", "montagne", "vélo", "cahier", "stylo", "lampe", "horloge"],
+    ["restaurant", "cinéma", "théâtre", "musée", "bibliothèque", "école", "hôpital", "supermarché", "pharmacie", "banque"],
+    ["jardin", "forêt", "plage", "rivière", "océan", "désert", "montagne", "vallée", "campagne", "ville"]
+]
+
+hard_groups = [
+    ["bibliothèque", "réfrigérateur", "ascenseur", "architecture", "philosophie", "magnétisme", "encyclopédie", "géographie", "théâtre", "restaurant"],
+    ["électricité", "télécommunication", "informatique", "astronomie", "biologie", "chimie", "physique", "mathématiques", "géologie", "météorologie"],
+    ["philosophie", "psychologie", "sociologie", "anthropologie", "économie", "politique", "histoire", "géographie", "littérature", "linguistique"]
+]
+
+hardcore_groups = [
+    ["anticonstitutionnellement", "incompréhensibilité", "électroencéphalogramme", "otorhinolaryngologiste", "hexakosioihexekontahexaphobie", "dysprosium", "parallélépipède", "hippopotomonstrosesquippedaliophobie", "sphygmomanomètre", "xylophoniste"],
+    ["intergouvernementalisation", "désinstitutionnalisation", "contre-révolutionnaire", "hyperconscientisation", "microprogrammabilité", "macroéconométrie", "télétransmission", "cryoconservation", "neuropharmacologie", "radiogoniométrie"],
+    ["spectrophotométrie", "thermodynamique", "cryptographie", "paléontologie", "astrophysique", "biotechnologie", "nanotechnologie", "cristallographie", "épidémiologie", "sismologie"]
+]
 
 
 def load_last_session():
@@ -40,20 +59,20 @@ choice = input(Fore.CYAN + "Entrez le numéro du niveau (1-4) : ")
 
 
 if choice == "1":
-    words = easy_words.copy()  
+    words = random.choice(easy_groups) 
     print(Fore.GREEN + "Mode Facile activé ! 🌱")
 elif choice == "2":
-    words = medium_words.copy()
+    words = random.choice(medium_groups)
     print(Fore.YELLOW + "Mode Moyen activé ! 🚀")
 elif choice == "3":
-    words = hard_words.copy()
+    words = random.choice(hard_groups)
     print(Fore.RED + "Mode Difficile activé ! 🔥")
 elif choice == "4":
-    words = hardcore_words.copy()
+    words = random.choice(hardcore_groups)
     print(Fore.MAGENTA + "Mode Hardcore activé ! 💀")
 else:
     print(Fore.RED + "Choix invalide. Mode Facile activé par défaut. 🌱")
-    words = easy_words.copy()
+    words = random.choice(easy_groups)
 
 
 random.shuffle(words)
