@@ -7,7 +7,7 @@ from colorama import init, Fore
 
 init(autoreset=True)
 
-
+# J'ai préféré utiliser des mots ajoutés manuellement plutôt que le dictionnaire sur Linux, car je pouvais plus facilement les modifier pour les niveaux. De plus, je suis sous Windows, donc c'était plus simple pour moi.
 easy_groups = [
     ["chat", "chien", "maison", "arbre", "soleil", "fleur", "table", "chaise", "livre", "école"],
     ["pomme", "banane", "orange", "fraise", "citron", "kiwi", "ananas", "raisin", "melon", "cerise"],
@@ -45,8 +45,25 @@ def load_last_session():
     return None
 
 
+def load_personal_best():
+    if os.path.exists("personal_best.json"):
+        try:
+            with open("personal_best.json", "r") as file:
+                data = file.read()
+                if data.strip():
+                    return json.loads(data)
+        except json.JSONDecodeError:
+            print(Fore.RED + "Erreur : Le fichier personal_best.json est corrompu. Il sera réinitialisé.")
+    return {"score": 0, "total_time": float('inf')} 
+
+
 def save_last_session(score, total_time):
     with open("last_session.json", "w") as file:
+        json.dump({"score": score, "total_time": total_time}, file)
+
+
+def save_personal_best(score, total_time):
+    with open("personal_best.json", "w") as file:
         json.dump({"score": score, "total_time": total_time}, file)
 
 
@@ -59,7 +76,7 @@ choice = input(Fore.CYAN + "Entrez le numéro du niveau (1-4) : ")
 
 
 if choice == "1":
-    words = random.choice(easy_groups) 
+    words = random.choice(easy_groups)  
     print(Fore.GREEN + "Mode Facile activé ! 🌱")
 elif choice == "2":
     words = random.choice(medium_groups)
@@ -82,7 +99,7 @@ start_time = time.time()
 
 for word in words:
     while True:
-        user_input = input(Fore.BLUE + f"✍️  Type '{word}': ")
+        user_input = input(Fore.BLUE + f"✍️  Écris '{word}': ")
         if user_input == word:
             print(Fore.GREEN + "✅ Correct !")
             score += 1
@@ -126,6 +143,19 @@ if last_session:
         print(Fore.YELLOW + "⏱️ Votre temps est identique à la dernière fois.")
 else:
     print(Fore.CYAN + "\n🌟 Aucune session précédente trouvée. C'est votre première fois !")
+
+
+personal_best = load_personal_best()
+print(Fore.CYAN + "\n🏆 Meilleur score personnel :")
+print(Fore.YELLOW + f"Score : {personal_best['score']} points")
+print(Fore.YELLOW + f"Temps : {personal_best['total_time']:.2f}s")
+
+
+if total_score > personal_best["score"] or (total_score == personal_best["score"] and total_time < personal_best["total_time"]):
+    print(Fore.GREEN + "🎉 Nouveau record personnel ! 🎉")
+    save_personal_best(total_score, total_time)
+else:
+    print(Fore.YELLOW + "Vous n'avez pas battu votre record personnel.")
 
 
 save_last_session(total_score, total_time)
