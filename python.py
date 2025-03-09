@@ -1,6 +1,7 @@
 import time
 import os
 import json
+import random 
 from colorama import init, Fore, Back, Style  
 
 
@@ -39,20 +40,23 @@ choice = input(Fore.CYAN + "Entrez le numéro du niveau (1-4) : ")
 
 
 if choice == "1":
-    words = easy_words
+    words = easy_words.copy()  
     print(Fore.GREEN + "Mode Facile activé ! 🌱")
 elif choice == "2":
-    words = medium_words
+    words = medium_words.copy()
     print(Fore.YELLOW + "Mode Moyen activé ! 🚀")
 elif choice == "3":
-    words = hard_words
+    words = hard_words.copy()
     print(Fore.RED + "Mode Difficile activé ! 🔥")
 elif choice == "4":
-    words = hardcore_words
+    words = hardcore_words.copy()
     print(Fore.MAGENTA + "Mode Hardcore activé ! 💀")
 else:
     print(Fore.RED + "Choix invalide. Mode Facile activé par défaut. 🌱")
-    words = easy_words
+    words = easy_words.copy()
+
+
+random.shuffle(words)
 
 score = 0
 start_time = time.time()
